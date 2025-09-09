@@ -88,6 +88,7 @@
         .main-container {
             display: flex;
             height: calc(100vh - 120px);
+            overflow: hidden;
         }
 
         .sidebar {
@@ -233,6 +234,105 @@
             flex: 1;
             background: white;
             padding: 20px;
+            overflow-y: auto;
+            max-height: calc(100vh - 120px);
+        }
+
+        .comparison-section {
+            max-width: 1000px;
+        }
+
+        .comparison-section h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: #007AFF;
+            color: white;
+            display: flex;
+            padding: 16px 20px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .table-header .column {
+            flex: 1;
+            text-align: center;
+        }
+
+        .table-section {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table-section:last-child {
+            border-bottom: none;
+        }
+
+        .table-section h3 {
+            background: #f8f9fa;
+            color: #333;
+            padding: 12px 20px;
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+
+        .table-row:hover {
+            background: #f8f9fa;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .old-name {
+            flex: 1;
+            color: #666;
+            font-size: 14px;
+            text-decoration: line-through;
+        }
+
+        .old-name.no-strike {
+            text-decoration: none;
+        }
+
+        .arrow {
+            color: #007AFF;
+            font-weight: bold;
+            margin: 0 20px;
+            font-size: 16px;
+        }
+
+        .new-name {
+            flex: 1;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
         }
 
     </style>
@@ -478,6 +578,155 @@
 
             <!-- Main Content -->
             <div class="main-content">
+                <div class="comparison-section">
+                    <h2>Comparação de Nomenclatura dos Organizadores</h2>
+                    <p class="subtitle">Estrutura anterior vs. Nova estrutura proposta</p>
+                    
+                    <div class="comparison-table">
+                        <div class="table-header">
+                            <div class="column">Estrutura Anterior</div>
+                            <div class="column">Nova Estrutura</div>
+                        </div>
+                        
+                        <div class="table-section">
+                            <h3>Intimações (novo agrupamento)</h3>
+                            <div class="table-row">
+                                <div class="old-name">Prazos em aberto</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Prazos em curso</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Prazos por abrir</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Aguardando consulta</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Remetidos de outra DP</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Recebidos de outra DP</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Configurar distribuição</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Suspeita de conflito</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Conflito</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Conflitos</div>
+                            </div>
+                        </div>
+
+                        <div class="table-section">
+                            <h3>Em peticionamento → Em processamento</h3>
+                            <div class="table-row">
+                                <div class="old-name no-strike">Intimação</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intimação (mantido)</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição Inicial</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Inicial</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição avulsa</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intermediária</div>
+                            </div>
+                        </div>
+
+                        <div class="table-section">
+                            <h3>Falhas (novo agrupamento)</h3>
+                            <div class="table-row">
+                                <div class="old-name">Falha (ciência)</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Ciência</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Falha (peticionamento)</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Peticionamento</div>
+                            </div>
+                        </div>
+
+                        <div class="table-section">
+                            <h3>Para corrigir</h3>
+                            <div class="table-row">
+                                <div class="old-name no-strike">Intimação</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intimação (mantido)</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição Inicial</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Inicial</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição avulsa</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intermediária</div>
+                            </div>
+                        </div>
+
+                        <div class="table-section">
+                            <h3>Para peticionar</h3>
+                            <div class="table-row">
+                                <div class="old-name no-strike">Intimação</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intimação (mantido)</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição Inicial</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Inicial</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição avulsa</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intermediária</div>
+                            </div>
+                        </div>
+
+                        <div class="table-section">
+                            <h3>Para revisar (novo agrupamento)</h3>
+                            <div class="table-row">
+                                <div class="old-name no-strike">Intimação</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intimação (mantido)</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição Inicial</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Inicial</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição avulsa</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intermediária</div>
+                            </div>
+                        </div>
+
+                        <div class="table-section">
+                            <h3>Peticionamento (novo agrupamento)</h3>
+                            <div class="table-row">
+                                <div class="old-name">Petição avulsa</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Intermediário</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name">Petição inicial</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Inicial</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="old-name no-strike">Sem prazo</div>
+                                <div class="arrow">→</div>
+                                <div class="new-name">Sem prazo (mantido)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
