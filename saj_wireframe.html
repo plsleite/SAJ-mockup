@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAJ - Nova Estrutura de Organizadores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            height: 100vh;
+        }
+
+        .browser-frame {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .browser-header {
+            background: #2c2c2c;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .traffic-lights {
+            display: flex;
+            gap: 6px;
+        }
+
+        .traffic-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .red { background: #ff5f57; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #28ca42; }
+
+        .tab {
+            background: #007AFF;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px 6px 0 0;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .app-header {
+            background: #007AFF;
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #e8e8e8;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #d0d0d0;
+            margin-bottom: 20px;
+        }
+
+        .justice-icon {
+            width: 24px;
+            height: 24px;
+            background: #007AFF;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .collapse-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .organizer-section {
+            margin-bottom: 8px;
+        }
+
+        .organizer-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+            color: #333;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .organizer-header:hover {
+            background: #d8d8d8;
+        }
+
+        .organizer-header.active {
+            background: #007AFF;
+            color: white;
+        }
+
+        .expand-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .organizer-header.active .expand-icon {
+            color: white;
+        }
+
+        .bookmark-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            color: #666;
+        }
+
+        .organizer-header.active .bookmark-icon {
+            color: white;
+        }
+
+        .organizer-count {
+            margin-left: auto;
+            background: #666;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .organizer-header.active .organizer-count {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .organizer-items {
+            background: #f0f0f0;
+            margin-left: 20px;
+        }
+
+        .organizer-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+            color: #555;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .organizer-item:hover {
+            background: #e0e0e0;
+        }
+
+        .organizer-item .bookmark-icon {
+            margin-right: 8px;
+        }
+
+        .organizer-item .organizer-count {
+            margin-left: auto;
+            background: #999;
+        }
+
+        .main-content {
+            flex: 1;
+            background: white;
+            padding: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="browser-frame">
+        <!-- Browser Header -->
+        <div class="browser-header">
+            <div class="traffic-lights">
+                <div class="traffic-light red"></div>
+                <div class="traffic-light yellow"></div>
+                <div class="traffic-light green"></div>
+            </div>
+            <div class="tab">
+                <span>⚖️</span>
+                <span>SAJ Defensoria Pública</span>
+            </div>
+        </div>
+
+        <!-- App Header -->
+        <div class="app-header">
+            <div class="menu-icon">☰</div>
+            <div class="logo">SAJ</div>
+            <div class="page-title">Painel de Tarefas</div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <div class="justice-icon">⚖️</div>
+                    <div class="sidebar-title">Tarefas</div>
+                    <button class="collapse-btn"><< RECOLHER MENU</button>
+                </div>
+
+                <!-- Nova Estrutura de Organizadores -->
+                
+                <!-- A fazer -->
+                <div class="organizer-section">
+                    <div class="organizer-header active">
+                        <span class="bookmark-icon">🔖</span>
+                        <span>A fazer</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                </div>
+
+                <!-- Organizadores -->
+                <div class="organizer-section">
+                    <div class="organizer-header" id="organizers-toggle">
+                        <span class="expand-icon">^</span>
+                        <span>Organizadores</span>
+                    </div>
+                </div>
+                
+                <!-- Intimações -->
+                <div class="organizer-section">
+                    <div class="organizer-header">
+                        <span class="expand-icon">^</span>
+                        <span>Intimações</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                    <div class="organizer-items">
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Aguardando consulta</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Prazos em curso</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Sem prazo</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Suspeita de conflito</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Conflitos</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Recebidos de outra DP</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Peticionamento -->
+                <div class="organizer-section">
+                    <div class="organizer-header">
+                        <span class="expand-icon">^</span>
+                        <span>Peticionamento</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                    <div class="organizer-items">
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Inicial</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intermediário</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Em peticionamento -->
+                <div class="organizer-section">
+                    <div class="organizer-header">
+                        <span class="expand-icon">^</span>
+                        <span>Em processamento</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                    <div class="organizer-items">
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intimação</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Inicial</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intermediária</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Falhas -->
+                <div class="organizer-section">
+                    <div class="organizer-header">
+                        <span class="expand-icon">^</span>
+                        <span>Falha</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                    <div class="organizer-items">
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Ciência</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Peticionamento</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Para corrigir -->
+                <div class="organizer-section">
+                    <div class="organizer-header">
+                        <span class="expand-icon">v</span>
+                        <span>Para corrigir</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                    <div class="organizer-items" style="display: none;">
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intimação</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Inicial</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intermediária</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Para revisar -->
+                <div class="organizer-section">
+                    <div class="organizer-header">
+                        <span class="expand-icon">v</span>
+                        <span>Para revisar</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                    <div class="organizer-items" style="display: none;">
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intimação</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Inicial</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intermediária</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Para peticionar -->
+                <div class="organizer-section">
+                    <div class="organizer-header">
+                        <span class="expand-icon">v</span>
+                        <span>Para peticionar</span>
+                        <span class="organizer-count">0</span>
+                    </div>
+                    <div class="organizer-items" style="display: none;">
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intimação</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Inicial</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                        <div class="organizer-item">
+                            <span class="bookmark-icon">🔖</span>
+                            <span>Intermediária</span>
+                            <span class="organizer-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidade de expansão/contração dos organizadores
+        document.querySelectorAll('.organizer-header').forEach(header => {
+            // Pular o card "A fazer" e "Organizadores" para não ter comportamento de expansão
+            if (header.id === 'organizers-toggle' || header.textContent.includes('A fazer')) {
+                return;
+            }
+            
+            header.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const items = this.nextElementSibling;
+                const expandIcon = this.querySelector('.expand-icon');
+                
+                if (items && items.classList.contains('organizer-items')) {
+                    if (items.style.display === 'none' || items.style.display === '') {
+                        items.style.display = 'block';
+                        expandIcon.textContent = '^';
+                    } else {
+                        items.style.display = 'none';
+                        expandIcon.textContent = 'v';
+                    }
+                }
+            });
+        });
+
+        // Funcionalidade de seleção apenas para "A fazer" e organizadores filhos
+        document.querySelectorAll('.organizer-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Remove active class from all items
+                document.querySelectorAll('.organizer-header, .organizer-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+            });
+        });
+
+        // Funcionalidade de seleção apenas para o card "A fazer"
+        document.querySelectorAll('.organizer-header').forEach(header => {
+            if (header.textContent.includes('A fazer')) {
+                header.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Remove active class from all items
+                    document.querySelectorAll('.organizer-header, .organizer-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                });
+            }
+        });
+
+        // Funcionalidade do card "Organizadores" para expandir/contrair todos
+        document.getElementById('organizers-toggle').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const expandIcon = this.querySelector('.expand-icon');
+            // Seleciona apenas os organizadores individuais, excluindo "A fazer" e "Organizadores"
+            const allOrganizers = document.querySelectorAll('.organizer-section:nth-child(n+4)');
+            
+            if (expandIcon.textContent === '^') {
+                // Contrair todos - esconder os organizadores individuais
+                allOrganizers.forEach(organizer => {
+                    organizer.style.display = 'none';
+                });
+                expandIcon.textContent = 'v';
+            } else {
+                // Expandir todos - mostrar os organizadores individuais
+                allOrganizers.forEach(organizer => {
+                    organizer.style.display = 'block';
+                });
+                expandIcon.textContent = '^';
+            }
+        });
+    </script>
+</body>
+</html>
